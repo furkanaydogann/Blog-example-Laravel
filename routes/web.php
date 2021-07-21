@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\articlecontroller;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +26,6 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 
-Route::get('articles', [ArticleController::class, 'index']);
+Route::resource('categories',CategoryController::class);
 
-Route::get('articles/new', [ArticleController::class, 'create']);
-
-Route::get('articles/{id}', [ArticleController::class, 'show']);
-
-Route::post('articles', [ArticleController::class, 'store']);
+Route::resource('articles',ArticleController::class);

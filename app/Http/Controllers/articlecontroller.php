@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\article;
+use App\Models\Article;
 
 class ArticleController extends Controller
 {
     public function index()
     {
-        // Article listeleme
         $articles = Article::latest()->get();
         return view("articles.index", compact('articles'));
     }
@@ -17,12 +16,6 @@ class ArticleController extends Controller
     public function create()
     {
         return view('articles.create');
-    }
-
-    public function show($id)
-    {
-        $article = Article::findOrFail($id);
-        return view('articles.detail', compact('article'));
     }
 
     public function store(Request $request)
@@ -38,5 +31,27 @@ class ArticleController extends Controller
         $article->save();
 
         return redirect('/articles/' . $article->id);
+    }
+
+    public function show($id)
+    {
+        $article = Article::findOrFail($id);
+        return view('articles.detail', compact('article'));
+    }
+
+    public function edit($id)
+    {
+        //
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    public function destroy($id)
+    {
+        //
     }
 }
