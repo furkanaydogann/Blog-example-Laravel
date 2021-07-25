@@ -11,7 +11,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::with(['articles'])->get();
         return view('categories.index', compact('categories'));
     }
 
@@ -33,15 +33,10 @@ class CategoryController extends Controller
         return redirect()->route('categories.show', $category);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $category = Category::with(['articles'])->findOrFail($id);
+        return view('categories.detail', compact('category'));
     }
 
     /**
@@ -52,7 +47,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -64,7 +60,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        $category = Category::findOrFail($id);
+        $category->name = $request->name;
+        $category->save();
+
+        return redirect()->route('categories.show', $category);
     }
 
     /**
@@ -75,6 +79,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect()->route('categories.index');
     }
 }

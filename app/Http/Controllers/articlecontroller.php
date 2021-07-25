@@ -4,28 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Category;
 
 class ArticleController extends Controller
 {
     public function index()
     {
-        $articles = Article::latest()->get();
+        $articles = Article::with(['category'])->latest()->get();
         return view("articles.index", compact('articles'));
     }
 
     public function create()
     {
-        return view('articles.create');
+        $categories = Category::all();
+        return view('articles.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
+            'category_id' => 'required|numeric|exists:categories,id',
             'title' => 'required',
             'content' => 'required|string|min:3',
         ]);
 
         $article = new Article;
+        $article->category_id = $request->category_id;
         $article->title = $request->title;
         $article->content = $request->content;
         $article->save();
@@ -35,7 +39,7 @@ class ArticleController extends Controller
 
     public function show($id)
     {
-        $article = Article::findOrFail($id);
+        $article = Article::with(['category'])->findOrFail($id);
         return view('articles.detail', compact('article'));
     }
 
