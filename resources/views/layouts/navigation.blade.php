@@ -34,7 +34,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-
+                    <!-- Profile -->
                     <x-dropdown-link :href="route('profile')">
 
                                 {{ __('My Profile') }}
@@ -83,6 +83,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                <!-- Profile -->
             <x-responsive-nav-link :href="route('profile')">
 
                         {{ __('My Profile') }}

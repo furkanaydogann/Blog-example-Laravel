@@ -16,9 +16,7 @@ use App\Http\Controllers\ProfileController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [CategoryController::class,'index']);
 
 
 
@@ -30,6 +28,7 @@ Route::group(['middleware'=> 'auth'], function(){
     })->name('dashboard');
 
     Route::view('profile','profile')->name('profile');
+    Route::put('profile',[ProfileController::class,'update'])->name('profile.update');
 });
 
 
